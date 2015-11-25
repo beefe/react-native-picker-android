@@ -1,0 +1,25 @@
+{
+  "name": "react-native-picker-android",
+  "version": "0.0.1",
+  "description": "react-native-picker-android for ReactNative",
+  "main": "index",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:beefe/react-native-picker-android.git"
+  },
+  "keywords": [
+    "react-native",
+    "picker",
+    "android",
+  ],
+  "author": {
+    "name": "rsk",
+    "email": "rsk_rsk@163.com"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "license": "BSD",
+  "homepage": "https://github.com/beefe/react-native-picker-android"
+}
