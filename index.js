@@ -233,7 +233,9 @@ var styles = StyleSheet.create({
 	upText: {
 		paddingTop: 0, 
 		height: 30, 
-		fontSize: 16, 
+		fontSize: 20, 
+		color: '#000',
+		opacity: .5,
 		paddingBottom: 0, 
 		marginTop: 0, 
 		marginBottom: 0, 
@@ -241,7 +243,7 @@ var styles = StyleSheet.create({
 	middle: {
 		height: 40, 
 		overflow: 'hidden', 
-		borderColor: '#ddd',
+		borderColor: '#aaa',
 		borderTopWidth: 1,
 		borderBottomWidth: 1,
 		width: Dimensions.get('window').width,
@@ -255,7 +257,8 @@ var styles = StyleSheet.create({
 	middleText: {
 		paddingTop: 0, 
 		height: 40, 
-		fontSize: 30, 
+		color: '#000',
+		fontSize: 28, 
 		paddingBottom: 0, 
 		marginTop: 0, 
 		marginBottom: 0, 
@@ -274,6 +277,8 @@ var styles = StyleSheet.create({
 		paddingTop: 0, 
 		height: 30, 
 		fontSize: 16, 
+		color: '#000',
+		opacity: .5,
 		paddingBottom: 0, 
 		marginTop: 0, 
 		marginBottom: 0, 
