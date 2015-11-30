@@ -66,7 +66,7 @@ var PickerAndroid = React.createClass({
 		var selectedIndex = 0;
 		var items = [];
 		React.Children.forEach(props.children, (child, index) => {
-			children.props.value === props.selectedValue && ( selectedIndex = index );
+			child.props.value === props.selectedValue && ( selectedIndex = index );
 			items.push({value: child.props.value, label: child.props.label});
 		});
 		return { selectedIndex, items };
