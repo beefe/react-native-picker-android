@@ -85,7 +85,7 @@ var PickerAndroid = React.createClass({
 		this.middleHeight = Math.abs(-index * 40 + dy);
 		this.up && this.up.setNativeProps({
 			style: {
-				marginTop: (-index + 1) * 30 + dy * .75,
+				marginTop: (3 - index) * 30 + dy * .75,
 			},
 		});
 		this.middle && this.middle.setNativeProps({
@@ -169,7 +169,7 @@ var PickerAndroid = React.createClass({
 		var items = this._renderItems(this.state.items);
 
 		var upViewStyle = {
-			marginTop: (-index + 1) * 30, 
+			marginTop: (3 - index) * 30, 
 			height: length * 30, 
 		};
 		var middleViewStyle = {
@@ -185,9 +185,7 @@ var PickerAndroid = React.createClass({
 			<View style={styles.container} {...this._panResponder.panHandlers}>
 
 				<View style={styles.up}>
-					<View 
-						style={[styles.upView, upViewStyle]} 
-						ref={(up) => { this.up = up }} >
+					<View style={[styles.upView, upViewStyle]} ref={(up) => { this.up = up }} >
 						{ items.upItems }
 					</View>
 				</View>
@@ -199,7 +197,7 @@ var PickerAndroid = React.createClass({
 				</View>
 
 				<View style={styles.down}>
-					<View style={styles.downView} ref={(down) => { this.down = down }} >
+					<View style={[styles.downView, downViewStyle]} ref={(down) => { this.down = down }} >
 						{ items.downItems }
 					</View>
 				</View>
