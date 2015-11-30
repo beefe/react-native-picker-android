@@ -182,7 +182,7 @@ var PickerAndroid = React.createClass({
 
 		
 		return (
-			<View style={styles.container}>
+			<View style={styles.container} {...this._panResponder.panHandlers}>
 
 				<View style={styles.up}>
 					<View 
@@ -204,9 +204,9 @@ var PickerAndroid = React.createClass({
 					</View>
 				</View>
 
-				<View 
+				{/**<View 
 					style={{ width: Dimensions.get('window').width - 100, height: 240, position: 'absolute', top: 0, left: 0, backgroundColor: '#000', opacity: 0.2, }}
-					{...this._panResponder.panHandlers} />
+					{...this._panResponder.panHandlers} />*/}
 
 			</View>
 		);
@@ -235,7 +235,7 @@ var styles = StyleSheet.create({
 		fontSize: 16, 
 		paddingBottom: 0, 
 		marginTop: 0, 
-		marignBottom: 0, 
+		marginBottom: 0, 
 	},
 	middle: {
 		height: 40, 
@@ -253,7 +253,7 @@ var styles = StyleSheet.create({
 		fontSize: 30, 
 		paddingBottom: 0, 
 		marginTop: 0, 
-		marignBottom: 0, 
+		marginBottom: 0, 
 	},
 	down: {
 		height: 90, 
@@ -271,7 +271,7 @@ var styles = StyleSheet.create({
 		fontSize: 16, 
 		paddingBottom: 0, 
 		marginTop: 0, 
-		marignBottom: 0, 
+		marginBottom: 0, 
 	},
 
 });
