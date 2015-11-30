@@ -106,7 +106,7 @@ var PickerAndroid = React.createClass({
 		if(dy > 0) {
 			this._move(dy > this.index * 40 ? this.index * 40 : dy);
 		}else{
-			this._move(dy < -(this.length - this.index - 1) * 40 ? -(this.length - this.index) * 40 : dy);
+			this._move(dy < -(this.length - this.index + 1) * 40 ? -(this.length - this.index) * 40 : dy);
 		}
 	},
 
