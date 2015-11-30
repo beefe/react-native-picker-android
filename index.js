@@ -226,7 +226,7 @@ var styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	upView: {
-		backgroundColor: '#fff', 
+		// backgroundColor: '#fff', 
 		justifyContent: 'flex-start', 
 		alignItems: 'center',
 	},
@@ -265,7 +265,7 @@ var styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	downView: {
-		backgroundColor: '#fff', 
+		// backgroundColor: '#fff', 
 		overflow: 'hidden', 
 		justifyContent: 'flex-start', 
 		alignItems: 'center',
