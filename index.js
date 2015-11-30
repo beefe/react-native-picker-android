@@ -85,7 +85,7 @@ var PickerAndroid = React.createClass({
 		this.middleHeight = Math.abs(-index * 40 + dy);
 		this.up && this.up.setNativeProps({
 			style: {
-				marginTop: (5 - index) * 30 + dy * .75,
+				marginTop: (3 - index) * 30 + dy * .75,
 			},
 		});
 		this.middle && this.middle.setNativeProps({
