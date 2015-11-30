@@ -159,7 +159,7 @@ var PickerAndroid = React.createClass({
 	},
 
 	_onValueChange() {
-
+		this.props.onValueChange && this.props.onValueChange(this.index);
 	},
 
 	render() {
@@ -219,6 +219,7 @@ var styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: null,
 	},
 	up: {
 		height: 90, 
@@ -240,7 +241,11 @@ var styles = StyleSheet.create({
 	middle: {
 		height: 40, 
 		overflow: 'hidden', 
-		backgroundColor: 'red', 
+		borderColor: '#ddd',
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
+		width: Dimensions.get('window').width,
+		// backgroundColor: 'red', 
 	},
 	middleView: {
 		height: 40, 
