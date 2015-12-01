@@ -72,14 +72,6 @@ var PickerAndroid = React.createClass({
 		return { selectedIndex, items };
 	},
 
-	_handlePanResponderGrant(evt, gestureState) {
-		// this.up && this.up.setNativeProps({
-		// 	style: {
-		// 		backgroundColor: 'blue',
-		// 	},
-		// });
-	},
-
 	_move(dy) {
 		var index = this.index;
 		this.middleHeight = Math.abs(-index * 40 + dy);
@@ -100,8 +92,32 @@ var PickerAndroid = React.createClass({
 		});
 	},
 
+	_moveTo(index) {
+		var _index = this.index;
+		var diff = _index - index;
+		var marginValue;
+		var that = this;
+		if(diff && !this.isMoving) {
+			marginValue = diff * 40;
+			this._move(marginValue);
+			this.index = index;
+			this._onValueChange();
+		}
+	},
+
+	_moveUp() {
+		this._moveTo(this.index - 1);
+	},
+
+	_moveDown() {
+		this._moveTo(this.index + 1);
+	},
+
 	_handlePanResponderMove(evt, gestureState) {
 		var dy = gestureState.dy, index = this.index;
+		if(this.isMoving) {
+			return;
+		}
 		// turn down
 		if(dy > 0) {
 			this._move(dy > this.index * 40 ? this.index * 40 : dy);
@@ -114,46 +130,43 @@ var PickerAndroid = React.createClass({
 		var middleHeight = this.middleHeight;
 		this.index = middleHeight % 40 >= 20 ? Math.ceil(middleHeight / 40) : Math.floor(middleHeight / 40);
 		this._move(0);
-	},
-
-	_handlePanResponderEnd(evt, gestureState) {
-		// this.backMarginTop += gestureState.dy;
+		this._onValueChange();
 	},
 
 	componentWillMount() {
 		this._panResponder = PanResponder.create({
-			onStartShouldSetPanResponder: (evt, gestureState) => true,
-			onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
 			onMoveShouldSetPanResponder: (evt, gestureState) => true,
 			onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-			onPanResponderGrant: this._handlePanResponderGrant,
 			onPanResponderRelease: this._handlePanResponderRelease,
 			onPanResponderMove: this._handlePanResponderMove,
-			onPanResponderEnd: this._handlePanResponderEnd,
 		});
-		// this.backMarginTop = 0;
 		this.index = this.state.selectedIndex;
 		this.length = this.state.items.length;
-	},
-
-	componentDidMount() {
-		/**
-		*	组件初次渲染之后立刻调用，仅执行一次
-		*/
+		this.isMoving = false;
 	},
 
 	componentWillUnmount() {
-		/**
-		*	组件销毁之前调用
-		*/
+		this.timer && clearInterval(this.timer);
 	},
 
 	_renderItems(items) {
 		var upItems = [], middleItems = [], downItems = [];
 		items.forEach((item, index) => {
-			upItems[index] = ( <Text style={styles.upText}>{item}</Text> );
-			middleItems[index] = ( <Text style={styles.middleText}>{item}</Text> );
-			downItems[index] = ( <Text style={styles.downText}>{item}</Text> );
+			upItems[index] = (  <Text 
+									style={styles.upText} 
+									onPress={() => {
+										this._moveTo(index);
+									}} >
+									{item.value}
+								</Text> );
+			middleItems[index] = ( <Text style={styles.middleText}>{item.value}</Text> );
+			downItems[index] = ( <Text 
+									style={styles.downText} 
+									onPress={() => {
+										this._moveTo(index);
+									}} >
+									{item.value}
+								</Text> );
 		});
 		return { upItems, middleItems, downItems, };
 	},
@@ -163,7 +176,6 @@ var PickerAndroid = React.createClass({
 	},
 
 	render() {
-		// 透明层 覆盖 
 		var index = this.state.selectedIndex;
 		var length = this.state.items.length;
 		var items = this._renderItems(this.state.items);
@@ -182,7 +194,7 @@ var PickerAndroid = React.createClass({
 
 		
 		return (
-			<View style={styles.container} {...this._panResponder.panHandlers}>
+			<View style={styles.container} {...this._panResponder.panHandlers} moveup={this._moveUp} moveDown={this._moveDown}>
 
 				<View style={styles.up}>
 					<View style={[styles.upView, upViewStyle]} ref={(up) => { this.up = up }} >
@@ -202,10 +214,6 @@ var PickerAndroid = React.createClass({
 					</View>
 				</View>
 
-				{/**<View 
-					style={{ width: Dimensions.get('window').width - 100, height: 240, position: 'absolute', top: 0, left: 0, backgroundColor: '#000', opacity: 0.2, }}
-					{...this._panResponder.panHandlers} />*/}
-
 			</View>
 		);
 	},
@@ -224,7 +232,6 @@ var styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	upView: {
-		// backgroundColor: '#fff', 
 		justifyContent: 'flex-start', 
 		alignItems: 'center',
 	},
@@ -245,7 +252,6 @@ var styles = StyleSheet.create({
 		borderTopWidth: 1,
 		borderBottomWidth: 1,
 		width: Dimensions.get('window').width,
-		// backgroundColor: 'red', 
 	},
 	middleView: {
 		height: 40, 
@@ -266,7 +272,6 @@ var styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	downView: {
-		// backgroundColor: '#fff', 
 		overflow: 'hidden', 
 		justifyContent: 'flex-start', 
 		alignItems: 'center',

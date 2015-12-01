@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker-android",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "description": "react-native-picker-android",
   "main": "index.js",
   "scripts": {
