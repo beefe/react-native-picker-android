@@ -110,7 +110,7 @@ var PickerAndroid = React.createClass({
 	},
 
 	moveDown() {
-		this._moveTo(Math.Min(this.index + 1, this.length - 1));
+		this._moveTo(Math.min(this.index + 1, this.length - 1));
 	},
 
 	_handlePanResponderMove(evt, gestureState) {
