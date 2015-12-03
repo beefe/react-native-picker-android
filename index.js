@@ -105,12 +105,12 @@ var PickerAndroid = React.createClass({
 		}
 	},
 
-	_moveUp() {
-		this._moveTo(this.index - 1);
+	moveUp() {
+		this._moveTo(Math.max(this.index - 1, 0));
 	},
 
-	_moveDown() {
-		this._moveTo(this.index + 1);
+	moveDown() {
+		this._moveTo(Math.Min(this.index + 1, this.length - 1));
 	},
 
 	_handlePanResponderMove(evt, gestureState) {
@@ -194,7 +194,7 @@ var PickerAndroid = React.createClass({
 
 		
 		return (
-			<View style={styles.container} {...this._panResponder.panHandlers} moveup={this._moveUp} moveDown={this._moveDown}>
+			<View style={styles.container} {...this._panResponder.panHandlers}>
 
 				<View style={styles.up}>
 					<View style={[styles.upView, upViewStyle]} ref={(up) => { this.up = up }} >
