@@ -20,7 +20,7 @@ npm install react-native-picker-android --save
 ```
 
 ####Step 2 - import and use in project
-```
+```javascript
 'use strict';
 
 import React, {
