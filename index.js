@@ -150,6 +150,10 @@ var PickerAndroid = React.createClass({
 	},
 
 	_renderItems(items) {
+		//实际显示的内容不能是value，因为value是用来检测变更的(onValueChange)
+		//某些场景的value有特殊用途，如级联菜单
+		//最好单独定义，这里跟iOS一样使用了label
+		//add by zooble @2015-12-10
 		var upItems = [], middleItems = [], downItems = [];
 		items.forEach((item, index) => {
 			upItems[index] = (  <Text 
@@ -157,22 +161,24 @@ var PickerAndroid = React.createClass({
 									onPress={() => {
 										this._moveTo(index);
 									}} >
-									{item.value}
+									{item.label}
 								</Text> );
-			middleItems[index] = ( <Text style={styles.middleText}>{item.value}</Text> );
+			middleItems[index] = ( <Text style={styles.middleText}>{item.label}</Text> );
 			downItems[index] = ( <Text 
 									style={styles.downText} 
 									onPress={() => {
 										this._moveTo(index);
 									}} >
-									{item.value}
+									{item.label}
 								</Text> );
 		});
 		return { upItems, middleItems, downItems, };
 	},
 
 	_onValueChange() {
-		this.props.onValueChange && this.props.onValueChange(this.index);
+		//实际使用中onValueChange的事件回调函数，往往需要回传当前的value
+		//add by zooble @2015-12-10
+		this.props.onValueChange && this.props.onValueChange(this.state.items[this.index].value);
 	},
 
 	render() {
