@@ -4,12 +4,12 @@ PickerAndroid has PickerIOS interface in pure javascript
 
 Needs react-native >= 0.14.2
 
-![ui](./doc/ui.gif)
-
 ###Documentation
 
-- selectedValue any
-- onValueChange function
+- <b>selectedValue</b> any
+- <b>onValueChange</b> function
+- <b>moveUp</b> when called, the wheel will go up, which will trigger onValueChange
+- <b>moveDown</b> when called, the wheel will go down, which will trigger onValueChange too.
 
 ###Usage
 
