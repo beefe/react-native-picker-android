@@ -157,15 +157,15 @@ var PickerAndroid = React.createClass({
 		var upItems = [], middleItems = [], downItems = [];
 		items.forEach((item, index) => {
 			upItems[index] = (  <Text 
-									style={styles.upText} 
+									style={[styles.upText, this.props.itemStyle]}
 									onPress={() => {
 										this._moveTo(index);
 									}} >
 									{item.label}
 								</Text> );
-			middleItems[index] = ( <Text style={styles.middleText}>{item.label}</Text> );
+			middleItems[index] = ( <Text style={[styles.middleText, this.props.itemStyle]}>{item.label}</Text> );
 			downItems[index] = ( <Text 
-									style={styles.downText} 
+									style={[styles.downText, this.props.itemStyle]}
 									onPress={() => {
 										this._moveTo(index);
 									}} >
