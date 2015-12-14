@@ -6,9 +6,12 @@ Needs react-native >= 0.14.2
 
 ###Documentation
 
+####Props
 - <b>itemStyle</b> itemStylePropType
 - <b>selectedValue</b> any
 - <b>onValueChange</b> function
+
+####Methods
 - <b>moveUp</b> when called, the wheel will go up, which will trigger onValueChange
 - <b>moveDown</b> when called, the wheel will go down, which will trigger onValueChange too.
 
