@@ -1,79 +1,69 @@
 'use strict';
- 
-var React = require('react-native');
-var { 
+
+import React, {
 	StyleSheet, 
 	PropTypes, 
 	View, 
 	Text, 
 	Image,
-	PixelRatio,
 	Dimensions,
-	PanResponder,
-	processColor,
-} = React;
+	PixelRatio,
+	PanResponder
+} from 'react-native';
 
-var PickerAndroidItem = React.createClass({
+class PickerAndroidItem extends React.Component{
 
-	displayName: 'PickerAndroidItem',
-
-	statics: {
-		title: '<PickerAndroidItem>',
-		description: 'this is PickerAndroidItem',
-	},
-
-	propTypes: {
+	static propTypes = {
 		value: PropTypes.any,
 		label: PropTypes.string,
-	},
+	}
+
+	constructor(props, context){
+		super(props, context);
+	}
 
 	render() {
 		return null;
-	},
+	}
 
-});
+};
 
-var PickerAndroid = React.createClass({
+export default class PickerAndroid extends React.Component{
 
-	displayName: 'PickerAndroid',
+	static item = PickerAndroidItem;
 
-	statics: {
-		title: '<PickerAndroid>',
-		description: 'this is PickerAndroid',
-		item: PickerAndroidItem,
-	},
-
-	propTypes: {
-		/**
-		*	picker 值改变时执行。
-		*/
+	static propTypes = {
+		//picker's style
+		pickerStyle: PropTypes.any,
+		//picker item's style
+		itemStyle: PropTypes.any,
+		//picked value changed then call this function
 		onValueChange: PropTypes.func,
-		/**
-		*	picker 默认值。
-		*/
-		selectedValue: PropTypes.any,
-	},
+		//default to be selected value
+		selectedValue: PropTypes.any
+	};
 
-	getInitialState() {
-		return this._stateFromProps(this.props);
-	},
+	constructor(props, context){
+		super(props, context);
+		this.state = this._stateFromProps(this.props);
+	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps){
 		this.setState(this._stateFromProps(nextProps));
-	},
+	}
 
-	_stateFromProps(props) {
-		var selectedIndex = 0;
-		var items = [];
+	_stateFromProps(props){
+		let selectedIndex = 0;
+		let items = [];
 		React.Children.forEach(props.children, (child, index) => {
 			child.props.value === props.selectedValue && ( selectedIndex = index );
 			items.push({value: child.props.value, label: child.props.label});
 		});
 		return { selectedIndex, items };
-	},
+	}
 
-	_move(dy) {
-		var index = this.index;
+	_move(dy){
+		let index = this.index;
 		this.middleHeight = Math.abs(-index * 40 + dy);
 		this.up && this.up.setNativeProps({
 			style: {
@@ -90,31 +80,31 @@ var PickerAndroid = React.createClass({
 				marginTop: (-index - 1) * 30 + dy * .75,
 			},
 		});
-	},
+	}
 
-	_moveTo(index) {
-		var _index = this.index;
-		var diff = _index - index;
-		var marginValue;
-		var that = this;
+	_moveTo(index){
+		let _index = this.index;
+		let diff = _index - index;
+		let marginValue;
+		let that = this;
 		if(diff && !this.isMoving) {
 			marginValue = diff * 40;
 			this._move(marginValue);
 			this.index = index;
 			this._onValueChange();
 		}
-	},
+	}
 
-	moveUp() {
+	moveUp(){
 		this._moveTo(Math.max(this.index - 1, 0));
-	},
+	}
 
 	moveDown() {
 		this._moveTo(Math.min(this.index + 1, this.length - 1));
-	},
+	}
 
-	_handlePanResponderMove(evt, gestureState) {
-		var dy = gestureState.dy, index = this.index;
+	_handlePanResponderMove(evt, gestureState){
+		let dy = gestureState.dy, index = this.index;
 		if(this.isMoving) {
 			return;
 		}
@@ -124,92 +114,91 @@ var PickerAndroid = React.createClass({
 		}else{
 			this._move(dy < (this.index - this.length + 1) * 40 ? (this.index - this.length + 1) * 40 : dy);
 		}
-	},
+	}
 
-	_handlePanResponderRelease(evt, gestureState) {
-		var middleHeight = this.middleHeight;
+	_handlePanResponderRelease(evt, gestureState){
+		let middleHeight = this.middleHeight;
 		this.index = middleHeight % 40 >= 20 ? Math.ceil(middleHeight / 40) : Math.floor(middleHeight / 40);
 		this._move(0);
 		this._onValueChange();
-	},
+	}
 
-	componentWillMount() {
+	componentWillMount(){
 		this._panResponder = PanResponder.create({
 			onMoveShouldSetPanResponder: (evt, gestureState) => true,
 			onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-			onPanResponderRelease: this._handlePanResponderRelease,
-			onPanResponderMove: this._handlePanResponderMove,
+			onPanResponderRelease: this._handlePanResponderRelease.bind(this),
+			onPanResponderMove: this._handlePanResponderMove.bind(this)
 		});
 		this.index = this.state.selectedIndex;
 		this.length = this.state.items.length;
 		this.isMoving = false;
-	},
+	}
 
-	componentWillUnmount() {
+	componentWillUnmount(){
 		this.timer && clearInterval(this.timer);
-	},
+	}
 
-	_renderItems(items) {
-		//实际显示的内容不能是value，因为value是用来检测变更的(onValueChange)
-		//某些场景的value有特殊用途，如级联菜单
-		//最好单独定义，这里跟iOS一样使用了label
-		//add by zooble @2015-12-10
-		var upItems = [], middleItems = [], downItems = [];
+	_renderItems(items){
+		//value was used to watch the change of picker
+		//label was used to display 
+		let upItems = [], middleItems = [], downItems = [];
 		items.forEach((item, index) => {
 
-			upItems[index] = (  <Text 
-									key={'up'+index}
-									style={[styles.upText, this.props.itemStyle]}
-									onPress={() => {
-										this._moveTo(index);
-									}} >
-									{item.label}
-								</Text> );
+			upItems[index] = <Text
+								key={'up'+index}
+								style={[styles.upText, this.props.itemStyle]}
+								onPress={() => {
+									this._moveTo(index);
+								}} >
+								{item.label}
+							</Text>;
 
-			middleItems[index] = ( <Text
+			middleItems[index] = <Text
 									key={'mid'+index}
 									style={[styles.middleText, this.props.itemStyle]}>{item.label}
-									</Text> );
+								</Text>;
 
-			downItems[index] = ( <Text 
+			downItems[index] = <Text
 									key={'down'+index}
 									style={[styles.downText, this.props.itemStyle]}
 									onPress={() => {
 										this._moveTo(index);
 									}} >
 									{item.label}
-								</Text> );
+								</Text>;
 
 		});
 		return { upItems, middleItems, downItems, };
-	},
+	}
 
-	_onValueChange() {
-		//实际使用中onValueChange的事件回调函数，往往需要回传当前的value
+	_onValueChange(){
+		//the current picked label was more expected to be passed
 		//add by zooble @2015-12-10
-		this.props.onValueChange && this.props.onValueChange(this.state.items[this.index].value);
-	},
+		var curItem = this.state.items[this.index];
+		this.props.onValueChange && this.props.onValueChange(curItem.label, curItem.value, this.index);
+	}
 
-	render() {
-		var index = this.state.selectedIndex;
-		var length = this.state.items.length;
-		var items = this._renderItems(this.state.items);
+	render(){
+		let index = this.state.selectedIndex;
+		let length = this.state.items.length;
+		let items = this._renderItems(this.state.items);
 
-		var upViewStyle = {
+		let upViewStyle = {
 			marginTop: (3 - index) * 30, 
 			height: length * 30, 
 		};
-		var middleViewStyle = {
+		let middleViewStyle = {
 			marginTop:  -index * 40, 
 		};
-		var downViewStyle = {
+		let downViewStyle = {
 			marginTop: (-index - 1) * 30, 
 			height:  length * 30, 
 		};
-
 		
 		return (
-			<View style={styles.container} {...this._panResponder.panHandlers}>
+			//total to be 90*2+40=220 height
+			<View style={[styles.container, this.props.pickerStyle]} {...this._panResponder.panHandlers}>
 
 				<View style={styles.up}>
 					<View style={[styles.upView, upViewStyle]} ref={(up) => { this.up = up }} >
@@ -231,77 +220,78 @@ var PickerAndroid = React.createClass({
 
 			</View>
 		);
-	},
+	}
 
-});
+};
 
-var styles = StyleSheet.create({
+let width = Dimensions.get('window').width;
+let height = Dimensions.get('window').height;
+let ratio = PixelRatio.get();
+let styles = StyleSheet.create({
+
 	container: {
-		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: null,
+		//this is very important
+		backgroundColor: null
 	},
 	up: {
-		height: 90, 
-		overflow: 'hidden',
+		height: 90,
+		overflow: 'hidden'
 	},
 	upView: {
-		justifyContent: 'flex-start', 
-		alignItems: 'center',
+		justifyContent: 'flex-start',
+		alignItems: 'center'
 	},
 	upText: {
-		paddingTop: 0, 
-		height: 30, 
-		fontSize: 20, 
+		paddingTop: 0,
+		height: 30,
+		fontSize: 20,
 		color: '#000',
 		opacity: .5,
-		paddingBottom: 0, 
-		marginTop: 0, 
-		marginBottom: 0, 
+		paddingBottom: 0,
+		marginTop: 0,
+		marginBottom: 0
 	},
 	middle: {
-		height: 40, 
-		overflow: 'hidden', 
+		height: 40,
+		overflow: 'hidden',
 		borderColor: '#aaa',
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		width: Dimensions.get('window').width,
+		borderTopWidth: 1/ratio,
+		borderBottomWidth: 1/ratio
 	},
 	middleView: {
-		height: 40, 
-		justifyContent: 'flex-start', 
-		alignItems: 'center',
+		height: 40,
+		justifyContent: 'flex-start',
+		alignItems: 'center'
 	},
 	middleText: {
-		paddingTop: 0, 
-		height: 40, 
+		paddingTop: 0,
+		height: 40,
 		color: '#000',
-		fontSize: 28, 
-		paddingBottom: 0, 
-		marginTop: 0, 
-		marginBottom: 0, 
+		fontSize: 28,
+		paddingBottom: 0,
+		marginTop: 0,
+		marginBottom: 0
 	},
 	down: {
-		height: 90, 
-		overflow: 'hidden',
+		height: 90,
+		overflow: 'hidden'
 	},
 	downView: {
-		overflow: 'hidden', 
-		justifyContent: 'flex-start', 
-		alignItems: 'center',
+		overflow: 'hidden',
+		justifyContent: 'flex-start',
+		alignItems: 'center'
 	},
 	downText: {
-		paddingTop: 0, 
-		height: 30, 
-		fontSize: 16, 
+		paddingTop: 0,
+		height: 30,
+		fontSize: 16,
 		color: '#000',
 		opacity: .5,
-		paddingBottom: 0, 
-		marginTop: 0, 
-		marginBottom: 0, 
-	},
+		paddingBottom: 0,
+		marginTop: 0,
+		marginBottom: 0
+	}
 
 });
-
-module.exports = PickerAndroid;
