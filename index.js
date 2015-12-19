@@ -15,7 +15,7 @@ class PickerAndroidItem extends React.Component{
 
 	static propTypes = {
 		value: PropTypes.any,
-		label: PropTypes.string,
+		label: PropTypes.any
 	}
 
 	constructor(props, context){
@@ -93,6 +93,10 @@ export default class PickerAndroid extends React.Component{
 			this.index = index;
 			this._onValueChange();
 		}
+	}
+	//cascade mode will reset the wheel position
+	moveTo(index){
+		this._moveTo(index);
 	}
 
 	moveUp(){
@@ -231,6 +235,7 @@ let ratio = PixelRatio.get();
 let styles = StyleSheet.create({
 
 	container: {
+		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		//this is very important
@@ -256,6 +261,7 @@ let styles = StyleSheet.create({
 	},
 	middle: {
 		height: 40,
+		width: width,
 		overflow: 'hidden',
 		borderColor: '#aaa',
 		borderTopWidth: 1/ratio,
