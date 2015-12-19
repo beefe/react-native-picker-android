@@ -173,10 +173,11 @@ export default class PickerAndroid extends React.Component{
 	}
 
 	_onValueChange(){
-		//the current picked label was more expected to be passed
+		//the current picked label was more expected to be passed, 
+		//but PickerIOS only passed value, so we set label to be the second argument
 		//add by zooble @2015-12-10
 		var curItem = this.state.items[this.index];
-		this.props.onValueChange && this.props.onValueChange(curItem.label, curItem.value, this.index);
+		this.props.onValueChange && this.props.onValueChange(curItem.value, curItem.label);
 	}
 
 	render(){
