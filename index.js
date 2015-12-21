@@ -30,7 +30,7 @@ class PickerAndroidItem extends React.Component{
 
 export default class PickerAndroid extends React.Component{
 
-	static item = PickerAndroidItem;
+	static Item = PickerAndroidItem;
 
 	static propTypes = {
 		//picker's style
