@@ -56,11 +56,20 @@ export default class PickerAndroid extends React.Component{
 	_stateFromProps(props){
 		let selectedIndex = 0;
 		let items = [];
+		let pickerStyle = props.pickerStyle;
+		let itemStyle = props.itemStyle;
+		let onValueChange = typeof props.onValueChange === function ? props.onValueChange : function(){};
 		React.Children.forEach(props.children, (child, index) => {
 			child.props.value === props.selectedValue && ( selectedIndex = index );
 			items.push({value: child.props.value, label: child.props.label});
 		});
-		return { selectedIndex, items };
+		return {
+			selectedIndex,
+			items,
+			pickerStyle,
+			itemStyle,
+			onValueChange
+		};
 	}
 
 	_move(dy){
@@ -152,7 +161,7 @@ export default class PickerAndroid extends React.Component{
 
 			upItems[index] = <Text
 								key={'up'+index}
-								style={[styles.upText, this.props.itemStyle]}
+								style={[styles.upText, this.state.itemStyle]}
 								onPress={() => {
 									this._moveTo(index);
 								}} >
@@ -161,12 +170,12 @@ export default class PickerAndroid extends React.Component{
 
 			middleItems[index] = <Text
 									key={'mid'+index}
-									style={[styles.middleText, this.props.itemStyle]}>{item.label}
+									style={[styles.middleText, this.state.itemStyle]}>{item.label}
 								</Text>;
 
 			downItems[index] = <Text
 									key={'down'+index}
-									style={[styles.downText, this.props.itemStyle]}
+									style={[styles.downText, this.state.itemStyle]}
 									onPress={() => {
 										this._moveTo(index);
 									}} >
@@ -182,7 +191,7 @@ export default class PickerAndroid extends React.Component{
 		//but PickerIOS only passed value, so we set label to be the second argument
 		//add by zooble @2015-12-10
 		var curItem = this.state.items[this.index];
-		this.props.onValueChange && this.props.onValueChange(curItem.value, curItem.label);
+		this.state.onValueChange(curItem.value, curItem.label);
 	}
 
 	render(){
@@ -204,7 +213,7 @@ export default class PickerAndroid extends React.Component{
 		
 		return (
 			//total to be 90*2+40=220 height
-			<View style={[styles.container, this.props.pickerStyle]} {...this._panResponder.panHandlers}>
+			<View style={[styles.container, this.state.pickerStyle]} {...this._panResponder.panHandlers}>
 
 				<View style={styles.up}>
 					<View style={[styles.upView, upViewStyle]} ref={(up) => { this.up = up }} >
