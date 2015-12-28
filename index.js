@@ -50,7 +50,6 @@ export default class PickerAndroid extends React.Component{
 
 	componentWillReceiveProps(nextProps){
 		this.setState(this._stateFromProps(nextProps));
-		this.length = this.state.items.length;
 	}
 
 	_stateFromProps(props){
@@ -58,7 +57,7 @@ export default class PickerAndroid extends React.Component{
 		let items = [];
 		let pickerStyle = props.pickerStyle;
 		let itemStyle = props.itemStyle;
-		let onValueChange = typeof props.onValueChange === function ? props.onValueChange : function(){};
+		let onValueChange = props.onValueChange;
 		React.Children.forEach(props.children, (child, index) => {
 			child.props.value === props.selectedValue && ( selectedIndex = index );
 			items.push({value: child.props.value, label: child.props.label});
@@ -110,15 +109,15 @@ export default class PickerAndroid extends React.Component{
 	}
 
 	moveUp(){
-		this._moveTo(Math.max(this.index - 1, 0));
+		this._moveTo(Math.max(this.state.items.index - 1, 0));
 	}
 
 	moveDown() {
-		this._moveTo(Math.min(this.index + 1, this.length - 1));
+		this._moveTo(Math.min(this.index + 1, this.state.items.length - 1));
 	}
 
 	_handlePanResponderMove(evt, gestureState){
-		let dy = gestureState.dy, index = this.index;
+		let dy = gestureState.dy;
 		if(this.isMoving) {
 			return;
 		}
@@ -126,7 +125,7 @@ export default class PickerAndroid extends React.Component{
 		if(dy > 0) {
 			this._move(dy > this.index * 40 ? this.index * 40 : dy);
 		}else{
-			this._move(dy < (this.index - this.length + 1) * 40 ? (this.index - this.length + 1) * 40 : dy);
+			this._move(dy < (this.index - this.state.items.length + 1) * 40 ? (this.index - this.state.items.length + 1) * 40 : dy);
 		}
 	}
 
@@ -144,9 +143,8 @@ export default class PickerAndroid extends React.Component{
 			onPanResponderRelease: this._handlePanResponderRelease.bind(this),
 			onPanResponderMove: this._handlePanResponderMove.bind(this)
 		});
-		this.index = this.state.selectedIndex;
-		this.length = this.state.items.length;
 		this.isMoving = false;
+		this.index = this.state.selectedIndex;
 	}
 
 	componentWillUnmount(){
@@ -191,7 +189,7 @@ export default class PickerAndroid extends React.Component{
 		//but PickerIOS only passed value, so we set label to be the second argument
 		//add by zooble @2015-12-10
 		var curItem = this.state.items[this.index];
-		this.state.onValueChange(curItem.value, curItem.label);
+		this.state.onValueChange && this.state.onValueChange(curItem.value, curItem.label);
 	}
 
 	render(){
