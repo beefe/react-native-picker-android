@@ -50,6 +50,7 @@ export default class PickerAndroid extends React.Component{
 
 	componentWillReceiveProps(nextProps){
 		this.setState(this._stateFromProps(nextProps));
+		this.length = this.state.items.length;
 	}
 
 	_stateFromProps(props){
