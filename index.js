@@ -52,6 +52,10 @@ export default class PickerAndroid extends React.Component{
 		this.setState(this._stateFromProps(nextProps));
 	}
 
+	shouldComponentUpdate(props, state, context){
+		return JSON.stringify([props, state, context]) !== JSON.stringify([this.props, this.state, this.context]);
+	}
+
 	_stateFromProps(props){
 		let selectedIndex = 0;
 		let items = [];
