@@ -53,7 +53,6 @@ export default class PickerAndroid extends React.Component{
 	}
 
 	shouldComponentUpdate(nextProps, nextState, context){
-		//JSON.stringify(props) cause error "Converting circular structure to JSON"
 		return JSON.stringify([{
 			selectedIndex: nextState.selectedIndex,
 			items: nextState.items,
