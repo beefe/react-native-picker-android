@@ -16,7 +16,7 @@ class PickerAndroidItem extends React.Component{
 	static propTypes = {
 		value: PropTypes.any,
 		label: PropTypes.any
-	}
+	};
 
 	constructor(props, context){
 		super(props, context);
