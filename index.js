@@ -34,9 +34,9 @@ export default class PickerAndroid extends Component{
 
 	static propTypes = {
 		//picker's style
-		pickerStyle: View.PropTypes.style,
+		pickerStyle: View.propTypes.style,
 		//picker item's style
-		itemStyle: Text.PropTypes.style,
+		itemStyle: Text.propTypes.style,
 		//picked value changed then call this function
 		onValueChange: PropTypes.func,
 		//default to be selected value
