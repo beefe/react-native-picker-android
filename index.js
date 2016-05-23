@@ -1,8 +1,8 @@
 'use strict';
 
-import React, {
-	StyleSheet, 
-	PropTypes, 
+import React, {Component, PropTypes} from 'react';
+import {
+	StyleSheet,
 	View, 
 	Text, 
 	Image,
@@ -11,7 +11,7 @@ import React, {
 	PanResponder
 } from 'react-native';
 
-class PickerAndroidItem extends React.Component{
+class PickerAndroidItem extends Component{
 
 	static propTypes = {
 		value: PropTypes.any,
@@ -28,15 +28,15 @@ class PickerAndroidItem extends React.Component{
 
 };
 
-export default class PickerAndroid extends React.Component{
+export default class PickerAndroid extends Component{
 
 	static Item = PickerAndroidItem;
 
 	static propTypes = {
 		//picker's style
-		pickerStyle: PropTypes.any,
+		pickerStyle: View.PropTypes,
 		//picker item's style
-		itemStyle: PropTypes.any,
+		itemStyle: Text.PropTypes,
 		//picked value changed then call this function
 		onValueChange: PropTypes.func,
 		//default to be selected value
