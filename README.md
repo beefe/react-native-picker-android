@@ -2,7 +2,9 @@
 
 PickerAndroid has PickerIOS interface in pure javascript
 
-Needs react-native >= 0.14.2
+###Warn
+if 0.14.2 <= react-native <=0.24 `npm install react-native-picker-android@0.3.8 --save`
+if 0.24 < react-native `npm install react-native-picker-android --save`
 
 ###Documentation
 
