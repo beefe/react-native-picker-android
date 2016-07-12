@@ -78,6 +78,8 @@ export default class PickerAndroid extends Component{
 			child.props.value === props.selectedValue && ( selectedIndex = index );
 			items.push({value: child.props.value, label: child.props.label});
 		});
+		//fix issue#https://github.com/beefe/react-native-picker/issues/51
+		this.index = selectedIndex;
 		return {
 			selectedIndex,
 			items,
