@@ -1,4 +1,4 @@
-#This project has deprecated, move to https://github.com/beefe/react-native-picker
+#This project has been deprecated, move to https://github.com/beefe/react-native-picker
 
 ## react-native-picker-android
 
