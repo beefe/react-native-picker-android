@@ -1,4 +1,6 @@
-# react-native-picker-android
+#This project have been desperated, move to https://github.com/beefe/react-native-picker
+
+## react-native-picker-android
 
 PickerAndroid has PickerIOS interface in pure javascript
 
