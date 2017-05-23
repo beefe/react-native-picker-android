@@ -1,34 +1,34 @@
-#This project has been deprecated, move to https://github.com/beefe/react-native-picker
+# This project has been deprecated, move to https://github.com/beefe/react-native-picker
 
 ## react-native-picker-android
 
 PickerAndroid has PickerIOS interface in pure javascript
 
-###Warn
-if 0.14.2 <= react-native <=0.24 `npm install react-native-picker-android@0.3.8 --save`  
-if 0.24 < react-native `npm install react-native-picker-android --save`
+### Warn
+* if 0.14.2 <= react-native <=0.24 `npm install react-native-picker-android@0.3.8 --save`  
+* if 0.24 < react-native `npm install react-native-picker-android --save`
 
-###Documentation
+### Documentation
 
-####Props
+#### Props
 - <b>pickerStyle</b> viewStylePropType
 - <b>itemStyle</b> textStylePropType
 - <b>selectedValue</b> any
 - <b>onValueChange</b> function
 
-####Methods
+#### Methods
 - <b>moveUp</b> when called, the wheel will go up, which will trigger onValueChange
 - <b>moveDown</b> when called, the wheel will go down, which will trigger onValueChange too.
 
-###Usage
+### Usage
 
-####Step 1 - install
+#### Step 1 - install
 
 ```
 npm install react-native-picker-android --save
 ```
 
-####Step 2 - import and use in project
+#### Step 2 - import and use in project
 ```javascript
 'use strict';
 
